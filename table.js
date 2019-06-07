@@ -7,7 +7,7 @@ class Table {
             "    <div class=\"modal-dialog modal-sm\" role=\"document\">\n" +
             "        <div class=\"modal-content\">\n" +
             "            <div class=\"modal-header\">\n" +
-            "                <h5 class=\"modal-title\" id=\"addRowModalTitle\">Добавить оружие</h5>\n" +
+            "                <h5 class=\"modal-title\" id=\"addRowModalTitle\">Добавить автомобиль</h5>\n" +
             "                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n" +
             "                    <span aria-hidden=\"true\">&times;</span>\n" +
             "                </button>\n" +
@@ -18,7 +18,7 @@ class Table {
             "                    <input required id=\"NameCreateInput\" type=\"text\" class=\"form-control\">\n" +
             "                    <label for=\"NameCreateInput\">Страна</label>\n" +
             "                    <input  required id=\"CountryCreateInput\" type=\"text\" class=\"form-control\">\n" +
-            "                    <label for=\"NameCreateInput\">Год создания</label>\n" +
+            "                    <label for=\"NameCreateInput\">Год выпуска</label>\n" +
             "                    <input required id=\"YearCreateInput\" type=\"number\" class=\"form-control\">\n" +
             "                    <label for=\"NameCreateInput\">Тип</label>\n" +
             "                    <input required id=\"TypeCreateInput\" type=\"text\" class=\"form-control\">\n" +
@@ -36,7 +36,7 @@ class Table {
             "    <div class=\"modal-dialog modal-sm\" role=\"document\">\n" +
             "        <div class=\"modal-content\">\n" +
             "            <div class=\"modal-header\">\n" +
-            "                <h5 class=\"modal-title\" id=\"deleteRowsModalTitle\">Удалить оружие</h5>\n" +
+            "                <h5 class=\"modal-title\" id=\"deleteRowsModalTitle\">Удалить автомобиль</h5>\n" +
             "                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n" +
             "                    <span aria-hidden=\"true\">&times;</span>\n" +
             "                </button>\n" +
@@ -66,7 +66,7 @@ class Table {
             "                <input required id=\"NameUpdateInput\" type=\"text\" class=\"form-control\">\n" +
             "                <label for=\"NameCreateInput\">Страна</label>\n" +
             "                <input  required id=\"CountryUpdateInput\" type=\"text\" class=\"form-control\">\n" +
-            "                <label for=\"NameCreateInput\">Год создания</label>\n" +
+            "                <label for=\"NameCreateInput\">Год выпуска</label>\n" +
             "                <input required id=\"YearUpdateInput\" type=\"number\" class=\"form-control\">\n" +
             "                <label for=\"NameCreateInput\">Тип</label>\n" +
             "                <input required id=\"TypeUpdateInput\" type=\"text\" class=\"form-control\">\n" +
@@ -196,7 +196,7 @@ class Table {
                     $('<td>').text(this.displayCars[i][this.carFields[j]])
                 );
             }
-            rowHtml.append($('<td id="key' + i + '" hidden>').text(this.displaycars[i]._id));
+            rowHtml.append($('<td id="key' + i + '" hidden>').text(this.displayCars[i]._id));
             tableHtml.append(rowHtml);
         }
         container.append(tableHtml);
