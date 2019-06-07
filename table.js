@@ -1,6 +1,6 @@
 class Table {
     constructor(containerID) {
-        let objName = "WeaponTable";
+        let objName = "CarTable";
         this.objName = objName;
         let dialogs = "\n" +
             "<div class=\"modal fade\" id=\"addRowModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addRowModalTitle\" aria-hidden=\"true\">\n" +
@@ -26,7 +26,7 @@ class Table {
             "            </div>\n" +
             "            <div class=\"modal-footer\">\n" +
             "                <button id=\"closeAddRowModal\" type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Отмена</button>\n" +
-            "                <button type=\"button\" class=\"btn btn-primary\" onclick=\"onClickCreateWeapon('" + objName + "')\">Подтвердить</button>\n" +
+            "                <button type=\"button\" class=\"btn btn-primary\" onclick=\"onClickCreateCar('" + objName + "')\">Подтвердить</button>\n" +
             "            </div>\n" +
             "        </div>\n" +
             "    </div>\n" +
@@ -46,7 +46,7 @@ class Table {
             "            </div>\n" +
             "            <div class=\"modal-footer\">\n" +
             "                <button id=\"closeDeleteRowsModalModal\" type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Отмена</button>\n" +
-            "                <button type=\"button\" class=\"btn btn-danger\" onclick=\"onClickDeleteWeapon('" + objName + "')\">Да</button>\n" +
+            "                <button type=\"button\" class=\"btn btn-danger\" onclick=\"onClickDeleteCar('" + objName + "')\">Да</button>\n" +
             "            </div>\n" +
             "        </div>\n" +
             "    </div>\n" +
@@ -75,7 +75,7 @@ class Table {
             "            </div>\n" +
             "            <div class=\"modal-footer\">\n" +
             "                <button id=\"closeUpdateRowModal\" type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Отмена</button>\n" +
-            "                <button type=\"button\" class=\"btn btn-primary\" onclick=\"onClickUpdateSaveWeapon('" + objName + "')\">Сохранить</button>\n" +
+            "                <button type=\"button\" class=\"btn btn-primary\" onclick=\"onClickUpdateSaveCar('" + objName + "')\">Сохранить</button>\n" +
             "            </div>\n" +
             "        </div>\n" +
             "    </div>\n" +
@@ -88,8 +88,8 @@ class Table {
         this.containerID = containerID;
         $("html").append(dialogs);
         this.dbUrl = 'http://localhost:8000';
-        this.allWeapons = [];
-        this.displayWeapons = [];
+        this.allCars = [];
+        this.displayCars = [];
         this.sortField = null;
         this.isDescSort = false;
         this.filter = '';
@@ -97,7 +97,7 @@ class Table {
         this.displayPagesCount = 0;
         this.rowsOnPage = 10;
         this.maxDisplayPages = 50;
-        this.weaponFields = ['Название', 'Страна', 'Год', 'Тип'];
+        this.carFields = ['Название', 'Страна', 'Год', 'Тип'];
         this.createInputName = $('#NameCreateInput');
         this.createInputCountry = $('#CountryCreateInput');
         this.createInputYear = $('#YearCreateInput');
@@ -113,20 +113,20 @@ class Table {
         this.sortByField();
         this.renderWidget();
     }
-    createWeapon(Name, Country, Year, Type) {
+    createCar(Name, Country, Year, Type) {
         let newUser = {
             Name: Name,
             Country: Country,
             Year: Year,
             Type: Type
         };
-        $.post(this.dbUrl + '/weapon', newUser)
+        $.post(this.dbUrl + '/car', newUser)
             .done((data, status) => {
                 console.log({data: data, status: status});
                 this.refresh();
             });
     }
-    updateWeapon(key, Name, Country, Year, Type) {
+    updateCar(key, Name, Country, Year, Type) {
         let newUser = {
             Name: Name,
             Country: Country,
@@ -134,7 +134,7 @@ class Table {
             Type: Type
         };
         $.ajax({
-            url: this.dbUrl + '/weapon/' + key,
+            url: this.dbUrl + '/car/' + key,
             method: 'PUT',
             data: newUser,
             success: (result)=>{
@@ -142,9 +142,9 @@ class Table {
             },
         });
     }
-    deleteWeapon(key) {
+    deleteCar(key) {
         $.ajax({
-            url: this.dbUrl + '/weapon/' + key,
+            url: this.dbUrl + '/car/' + key,
             method: 'DELETE',
             success: (result)=>{
                 this.refresh();
@@ -152,7 +152,7 @@ class Table {
         });
     }
     renderWidget() {
-        let objectName = "WeaponTable";
+        let objectName = "CarTable";
         let container = $(this.containerID);
         container.html('');
 
@@ -164,16 +164,16 @@ class Table {
             )
         );
         container.append(searchDiv);
-        container.append($('<div>').text('Количество записей: ' + this.displayWeapons.length));
+        container.append($('<div>').text('Количество записей: ' + this.displayCars.length));
         let tableHtml = $('<table class="table table-striped">');
 
         let header = $('<tr>');
         header.append($('<th>').html('<i class="fas fa-trash"></i>'));
         header.append($('<th>').html('<i class="fas fa-edit"></i>'));
         header.append($('<th>').text('Номер'));
-        for (let i = 0; i < this.weaponFields.length; i++) {
-            let a = $('<a href="#">').click({param1: objectName}, onClickSortByField).text(this.weaponFields[i]);
-            if (this.weaponFields[i] === this.sortField) {
+        for (let i = 0; i < this.carFields.length; i++) {
+            let a = $('<a href="#">').click({param1: objectName}, onClickSortByField).text(this.carFields[i]);
+            if (this.carFields[i] === this.sortField) {
                 a = $('<b>').append(a).append(this.isDescSort ? ' <i class="fas fa-long-arrow-alt-down"></i>' : ' <i class="fas fa-long-arrow-alt-up"></i>');
             } else {
                 a = $('<span>').append(a).append(' <i class="fas fa-arrows-alt-v" style="color: rgba(133,133,133,0.31)"></i>');
@@ -182,26 +182,26 @@ class Table {
         }
         tableHtml.append(header);
         let firstDisplayI = (this.currentPage) * this.rowsOnPage;
-        let lastDisplayI = ((this.currentPage) * this.rowsOnPage + this.rowsOnPage < this.displayWeapons.length) ? (this.currentPage) * this.rowsOnPage + this.rowsOnPage : this.displayWeapons.length;
+        let lastDisplayI = ((this.currentPage) * this.rowsOnPage + this.rowsOnPage < this.displayCars.length) ? (this.currentPage) * this.rowsOnPage + this.rowsOnPage : this.displayCars.length;
         for (let i = firstDisplayI; i < lastDisplayI; i++) {
             let rowHtml = $('<tr>');
-            rowHtml.append($('<td>').html('<input type="checkbox" name="type" value="' + this.displayWeapons[i]._id + '" />'));
+            rowHtml.append($('<td>').html('<input type="checkbox" name="type" value="' + this.displayCars[i]._id + '" />'));
             rowHtml.append($('<td>').append($('<a href="#" class="fas fa-pen">').click({
                 param1: i,
                 param2: objectName
-            }, onClickUpdateWeapon)));
+            }, onClickUpdateCar)));
             rowHtml.append($('<td>').text(i));
-            for (let j = 0; j < this.weaponFields.length; j++) {
+            for (let j = 0; j < this.carFields.length; j++) {
                 rowHtml.append(
-                    $('<td>').text(this.displayWeapons[i][this.weaponFields[j]])
+                    $('<td>').text(this.displayCars[i][this.carFields[j]])
                 );
             }
-            rowHtml.append($('<td id="key' + i + '" hidden>').text(this.displayWeapons[i]._id));
+            rowHtml.append($('<td id="key' + i + '" hidden>').text(this.displaycars[i]._id));
             tableHtml.append(rowHtml);
         }
         container.append(tableHtml);
         let pagination = $('<div class="col-md-12" style="margin: 10px">');
-        let allPagesCount = Math.ceil((this.displayWeapons.length) / this.rowsOnPage);
+        let allPagesCount = Math.ceil((this.displayCars.length) / this.rowsOnPage);
         this.displayPagesCount = (allPagesCount > this.maxDisplayPages) ? this.maxDisplayPages : allPagesCount;
         let firstDisplayPage = 0;
         let lastDisplayPage = this.displayPagesCount;
@@ -244,23 +244,23 @@ class Table {
     }
     sortByField() {
         if (this.sortField !== null) {
-            if (typeof this.allWeapons[0][this.sortField] === "number") {
+            if (typeof this.allCars[0][this.sortField] === "number") {
                 if (this.isDescSort) {
-                    this.displayWeapons = this.displayWeapons.sort((a, b) => {
+                    this.displayCars = this.displayCars.sort((a, b) => {
                         return a[this.sortField] - b[this.sortField];
                     });
                 } else {
-                    this.displayWeapons = this.displayWeapons.sort((a, b) => {
+                    this.displayCars = this.displayCars.sort((a, b) => {
                         return b[this.sortField] - a[this.sortField];
                     });
                 }
             } else {
                 if (this.isDescSort) {
-                    this.displayWeapons = this.displayWeapons.sort((a, b) => {
+                    this.displayCars = this.displayCars.sort((a, b) => {
                         return -a[this.sortField].localeCompare(b[this.sortField])
                     });
                 } else {
-                    this.displayWeapons = this.displayWeapons.sort((a, b) => {
+                    this.displayCars = this.displayCars.sort((a, b) => {
 
                         return a[this.sortField].localeCompare(b[this.sortField])
                     });
@@ -270,19 +270,19 @@ class Table {
     }
     filterBy() {
         if (this.filter !== '') {
-            this.displayWeapons = this.allWeapons.filter((value) => {
+            this.displayCars = this.allCars.filter((value) => {
                 return value.Name.indexOf(this.filter) !== -1
                     || value.Country.indexOf(this.filter) !== -1
                     || (value.Year + '').indexOf(this.filter) !== -1
                     || value.Type.indexOf(this.filter) !== -1
             });
         } else
-            this.displayWeapons = this.allWeapons.slice(0);
+            this.displayCars = this.allCars.slice(0);
     }
     downloadData(done) {
-        $.get(this.dbUrl + '/weapon', (data, status) => {
+        $.get(this.dbUrl + '/car', (data, status) => {
             console.log({data: data, status: status});
-            this.allWeapons = data;
+            this.allCars = data;
             done();
         });
     }
@@ -312,7 +312,7 @@ function onClickSortByField(objName) {
     datatableonj.sortByField();
     datatableonj.renderWidget();
 }
-function onClickCreateWeapon(objName) {
+function onClickCreateCar(objName) {
     let datatableonj = window[objName];
     let Name = datatableonj.createInputName.val();
     let Country = datatableonj.createInputCountry.val();
@@ -320,7 +320,7 @@ function onClickCreateWeapon(objName) {
     let Type = datatableonj.createInputType.val();
     if (Name === '' || Country === '' || Year === '' || Type === '')
         return;
-    datatableonj.createWeapon(Name, Country, parseInt(Year), Type);
+    datatableonj.createCar(Name, Country, parseInt(Year), Type);
 
     $('#closeAddRowModal').click();
 
@@ -330,17 +330,17 @@ function onClickCreateWeapon(objName) {
     datatableonj.createInputType.val('');
 
 }
-function onClickUpdateWeapon(event) {
+function onClickUpdateCar(event) {
     let index = event.data.param1;
     let datatableonj = window[event.data.param2];
     $('#updateButton').click();
-    datatableonj.updateInputName.val(datatableonj.displayWeapons[index].Name);
-    datatableonj.updateInputCountry.val(datatableonj.displayWeapons[index].Country);
-    datatableonj.updateInputYear.val(datatableonj.displayWeapons[index].Year);
-    datatableonj.updateInputType.val(datatableonj.displayWeapons[index].Type);
-    datatableonj.updateInputKey.val(datatableonj.displayWeapons[index]._id);
+    datatableonj.updateInputName.val(datatableonj.displayCars[index].Name);
+    datatableonj.updateInputCountry.val(datatableonj.displayCars[index].Country);
+    datatableonj.updateInputYear.val(datatableonj.displayCars[index].Year);
+    datatableonj.updateInputType.val(datatableonj.displayCars[index].Type);
+    datatableonj.updateInputKey.val(datatableonj.displayCars[index]._id);
 }
-function onClickUpdateSaveWeapon(objName) {
+function onClickUpdateSaveCar(objName) {
     let datatableonj = window[objName];
     let Name = datatableonj.updateInputName.val();
     let Country = datatableonj.updateInputCountry.val();
@@ -350,7 +350,7 @@ function onClickUpdateSaveWeapon(objName) {
 
     if (Name === '' || Country === '' || Year === '' || Type === '')
         return;
-    datatableonj.updateWeapon(key, Name, Country, parseInt(Year), Type);
+    datatableonj.updateCar(key, Name, Country, parseInt(Year), Type);
 
     $('#closeUpdateRowModal').click();
 
@@ -359,14 +359,14 @@ function onClickUpdateSaveWeapon(objName) {
     datatableonj.updateInputYear.val('');
     datatableonj.updateInputType.val('');
 }
-function onClickDeleteWeapon(objName) {
+function onClickDeleteCar(objName) {
     let datatableonj = window[objName];
     let selected = [];
     $("input:checkbox[name=type]:checked").each(function () {
         selected.push($(this).val());
     });
     selected.forEach(function (value) {
-        datatableonj.deleteWeapon(value);
+        datatableonj.deleteCar(value);
     });
     $('#closeDeleteRowsModalModal').click();
 }
