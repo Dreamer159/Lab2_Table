@@ -14,9 +14,9 @@ class Table {
             "            </div>\n" +
             "            <div class=\"modal-body\">\n" +
             "                <div class=\"\">\n" +
-            "                    <label for=\"NameCreateInput\">Название</label>\n" +
+            "                    <label for=\"NameCreateInput\">Марка</label>\n" +
             "                    <input required id=\"NameCreateInput\" type=\"text\" class=\"form-control\">\n" +
-            "                    <label for=\"NameCreateInput\">Страна</label>\n" +
+            "                    <label for=\"NameCreateInput\">Модель</label>\n" +
             "                    <input  required id=\"CountryCreateInput\" type=\"text\" class=\"form-control\">\n" +
             "                    <label for=\"NameCreateInput\">Год выпуска</label>\n" +
             "                    <input required id=\"YearCreateInput\" type=\"number\" class=\"form-control\">\n" +
@@ -62,9 +62,9 @@ class Table {
             "                </button>\n" +
             "            </div>\n" +
             "            <div class=\"modal-body\">\n" +
-            "                <label for=\"NameCreateInput\">Название</label>\n" +
+            "                <label for=\"NameCreateInput\">Марка</label>\n" +
             "                <input required id=\"NameUpdateInput\" type=\"text\" class=\"form-control\">\n" +
-            "                <label for=\"NameCreateInput\">Страна</label>\n" +
+            "                <label for=\"NameCreateInput\">Модель</label>\n" +
             "                <input  required id=\"CountryUpdateInput\" type=\"text\" class=\"form-control\">\n" +
             "                <label for=\"NameCreateInput\">Год выпуска</label>\n" +
             "                <input required id=\"YearUpdateInput\" type=\"number\" class=\"form-control\">\n" +
@@ -97,7 +97,7 @@ class Table {
         this.displayPagesCount = 0;
         this.rowsOnPage = 10;
         this.maxDisplayPages = 50;
-        this.carFields = ['Название', 'Страна', 'Год', 'Тип'];
+        this.carFields = ['Марка', 'Модель', 'Год', 'Тип'];
         this.createInputName = $('#NameCreateInput');
         this.createInputCountry = $('#CountryCreateInput');
         this.createInputYear = $('#YearCreateInput');
